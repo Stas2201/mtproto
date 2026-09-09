@@ -1,12 +1,10 @@
 FROM python:3.12-slim
 
-RUN apt-get update && apt-get install -y python3-uvloop python3-socks python3-cryptography
-
 WORKDIR /app
 
-COPY mtprotoproxy.py config.py /app/
+COPY . .
 
-USER nobody
+RUN pip install --no-cache-dir cryptography pycryptodome pyaes
 
 EXPOSE 8443
 
