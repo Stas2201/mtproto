@@ -1,15 +1,18 @@
 
-FROM python:3.12-slim
+import os
 
-WORKDIR /app
+PORT = int(os.getenv("PORT", 8443))
 
-COPY . .
+USERS = {
+    "tg": os.getenv("SECRET", "ee1234567890abcdef1234567890abcdef")
+}
 
-RUN pip install --no-cache-dir cryptography pycryptodome pyaes
+LISTEN_ADDR = "0.0.0.0"
 
-ENV SECRET=${SECRET}
-ENV PORT=${PORT}
+MODES = {
+    "classic": False,
+    "secure": False,
+    "tls": True
+}
 
-EXPOSE 8443
-
-CMD ["python3", "mtprotoproxy.py"]
+TLS_DOMAIN = os.getenv("TLS_DOMAIN", "www.cloudflare.com")
