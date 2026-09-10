@@ -1,18 +1,12 @@
 
-import os
 
-PORT = int(os.getenv("PORT", 8443))
+FROM python:3.10-slim
 
-USERS = {
-    "tg": os.getenv("SECRET", "ee1234567890abcdef1234567890abcdef")
-}
+WORKDIR /app
 
-LISTEN_ADDR = "0.0.0.0"
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-MODES = {
-    "classic": False,
-    "secure": False,
-    "tls": True
-}
+COPY . .
 
-TLS_DOMAIN = os.getenv("TLS_DOMAIN", "www.cloudflare.com")
+CMD ["python", "main.py"]
